@@ -43,6 +43,7 @@ const DEFAULT_VIEWPORT = {
   height: 2000,
   deviceScaleFactor: 1,
 };
+const GBOT_UA = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
 
 const PNG_NOSCROLL_FILENAME = 'page_noscroll.png';
 const PNG_SCROLL_FILENAME = 'page_scroll.png';
@@ -109,6 +110,7 @@ async function screenshotPageWithoutScroll(url) {
 
   const page = await context.newPage();
 
+  await page.setUserAgent(GBOT_UA);
   // Set viewport height to same as the page when it's completely scrolled
   // so final screenshot is same height.
   // const viewport = Object.assign({}, DEFAULT_VIEWPORT);
@@ -140,6 +142,7 @@ async function screenshotPageAfterScroll(url) {
   const context = await browser.createIncognitoBrowserContext();
 
   const page = await context.newPage();
+  await page.setUserAgent(GBOT_UA);
   await page.goto(url, {waitUntil: 'networkidle2'});
 
   await page.evaluate(() => {
